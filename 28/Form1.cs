@@ -46,14 +46,18 @@ namespace _28
         int y1 = 0;
         int fx = 0;
         int fy = 0;
-        PictureBox[] snake = new PictureBox[400];
+        //PictureBox[] snake = new PictureBox[400];
+        int[] arrX = new int[100000];
+        int[] arrY = new int[100000];
+        int quant = 0;
+        int locOne = 0;
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (pictureBox1.Location.X>725|| pictureBox1.Location.X < 0 || pictureBox1.Location.Y > 425 | pictureBox1.Location.X < 0 )
+            if (pictureBox1.Location.X>725|| pictureBox1.Location.X < 0 || pictureBox1.Location.Y > 425 | pictureBox1.Location.Y < 0 )
             {
                 throw new Exception("GTAME OVER!");
             }
-            if (pictureBox2.Location.X< pictureBox1.Location.X+15 && pictureBox2.Location.X > pictureBox1.Location.X - 15&& pictureBox2.Location.Y < pictureBox1.Location.Y + 15 && pictureBox2.Location.Y > pictureBox1.Location.Y - 15)
+            if (pictureBox2.Location.X< pictureBox1.Location.X+20 && pictureBox2.Location.X > pictureBox1.Location.X - 20 && pictureBox2.Location.Y < pictureBox1.Location.Y + 20 && pictureBox2.Location.Y > pictureBox1.Location.Y - 20)
             {
                 int p1 = panel1.Size.Width;
                 int p2 = panel1.Size.Height;
@@ -72,36 +76,38 @@ namespace _28
                 pct.Location = new Point(pictureBox1.Location.X, pictureBox1.Location.Y);
                 pct.BackColor = Color.Aqua;
                 panel1.Controls.Add(pct);
-                snake[sch] = pct;
+                
                 sch++;
 
             }
-            for (int i = 0; i < sch; i++)
+            for (int i = 0; i < sch ; i++)
             {
+               
+                PictureBox p = panel1.Controls["pct" + i] as PictureBox;
+                p.Location = new Point(arrX[sch-i], arrY[sch-i]);
 
-                
-                if (i != 0)
-                {
-                    snake[i].Location = new Point(x1, y1);
-                }
+                //if (i != 0)
+                //{
+                //    snake[i].Location = new Point(x1, y1);
+                //}
 
 
 
 
-                x1 = snake[i].Location.X;
-                y1 = snake[i].Location.Y;
+                //x1 = snake[i].Location.X;
+                //y1 = snake[i].Location.Y;
 
-                PictureBox p = panel1.Controls["pct" + 0] as PictureBox;
+                //PictureBox p = panel1.Controls["pct" + 0] as PictureBox;
 
-                x = p.Location.X;
-                y = p.Location.Y;
-                p.Location = new Point(pictureBox1.Location.X, pictureBox1.Location.Y);
+                //x = p.Location.X;
+                //y = p.Location.Y;
+                //p.Location = new Point(pictureBox1.Location.X, pictureBox1.Location.Y);
 
 
 
 
             }
-
+            pictureBox3.Location = new Point(pictureBox1.Location.X, pictureBox1.Location.Y);
             switch (loc)
             {
                 case 1:
@@ -126,7 +132,28 @@ namespace _28
                     break;
 
             }
-           
+
+            for (int i = 0; i < sch; i++)
+            {
+
+                PictureBox p = panel1.Controls["pct" + i] as PictureBox;
+                if (p.Location == pictureBox1.Location)
+                {
+                    throw new Exception("GTAME OVER!");
+                }
+                
+            }
+                //сохраняет все положения 1 блока змейки = pictureBox1.Location.X;
+                for (int i = arrX.Length-2; i >=0 ; i--)
+            {
+                arrX[i+1] = arrX[i];
+                arrY[i + 1] = arrY[i];
+            }
+            arrX[0] = pictureBox1.Location.X;
+            arrY[0] = pictureBox1.Location.Y;
+            quant++;
+
+
         }
         
     }
